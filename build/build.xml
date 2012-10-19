@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- @author Thodoris Tsiridis -->
+<project name="Build system for the DebuggerJS project" basedir="." default="instructions">
+
+  <!-- PROPERTIES-->
+  <property name="jsdocs.dir" value="${basedir}/tools/jsdoc3"/>
+  <property name="closure-compiler" value="${basedir}/tools/closure-compiler-v1346.jar"/>
+  <property name="rhino.dir" value="${basedir}/tools/rhino.jar"/>
+  <property name="antcontrib.dir" value="${basedir}/tools/ant-contrib-1.0b3.jar"/>
+  <property name="anteloptasks.dir" value="${basedir}/tools/antelopetasks-3.2.10.jar"/>
+  <property name="jar.location" value="${basedir}/tools/jsdoc3-ant-task-1.0.jar"/>
+  <property name="rhino.jar.location" value="${jsdocs.dir}/lib/js.jar"/>
+
+  <!-- TASK DEFINITIONS-->
+
+  <taskdef resource="net/sf/antcontrib/antcontrib.properties">
+    <classpath>
+      <pathelement location="${antcontrib.dir}"/>
+    </classpath>
+  </taskdef>
+
+  <taskdef name="jsdoc3" classname="net.jannon.ant.tasks.JsDoc3" classpath="${jar.location}:${rhino.jar.location}"/>
+
+  <!-- VARIABLES -->
+  <var name="docs.dir" value="${basedir}/../docs"/>
+  <var name="src.dir" value="${basedir}/../src"/>
+  <var name="dist.dir" value="${basedir}/../dist"/>
+  <var name="src.js.dir" value="${src.dir}"/>
+  <var name="dist.js.dir" value="${dist.dir}"/>
+  <var name="dist.compressed.file.js" value="${dist.js.dir}/debuggerjs.min.js" />
+  <var name="dist.temp.file.js" value="${dist.js.dir}/debuggerjs.temp.js" />
+
+  <!--TARGETS-->
+
+  <!-- Cleans the target directory -->
+  <target name="clean" description="Cleaning the project...">
+    <echo>Cleaning the project...</echo>
+    <delete dir="${dist.js.dir}" />
+  </target>
+
+  <!-- Runs the tests -->
+  <target name="run-tests">
+    <echo message="Tests" />
+    <exec dir="${basedir}/../tests/" executable="${basedir}/../tests/run.sh" failonerror="true"></exec>
+    <echo>All Tests Passed!</echo>
+  </target>
+
+  <!-- Merges all javascript files into one. Remember, order matters! -->
+  <target name="merge-global-js" description="Merging the Javascript...">
+    <echo>Merging the Javascript...</echo>
+    <concat destfile="${dist.temp.file.js}" fixlastline="yes" append="no">
+      <filelist>
+        <file name="${src.js.dir}/namespaces.js"/>
+        <file name="${src.js.dir}/helpers/utils.js"/>
+        <file name="${src.js.dir}/parsers/default.js"/>
+        <file name="${src.js.dir}/loggers/console.js"/>
+        <file name="${src.js.dir}/loggers/memory.js"/>
+        <file name="${src.js.dir}/logger.js"/>
+      </filelist>
+    </concat>
+  </target>
+
+  <!-- Compress the merged common javascript file -->
+  <target name="compress-global-js" description="Compressing the Javascript...">
+    <echo>Compressing the Javascript...</echo>
+    <java jar="${closure-compiler}" fork="true">
+      <arg line="--js ${dist.temp.file.js} --js_output_file ${dist.compressed.file.js}"/>
+    </java>
+  </target>
+
+  <target name="js3docs" description="Creating documentation...">
+    <delete dir="${docs.dir}" />
+    <jsdoc3 jsdochome="${jsdocs.dir}" to="${docs.dir}">
+      <fileset dir="${src.dir}/" />
+    </jsdoc3>
+  </target>
+
+  <!-- Renames the merged file -->
+  <target name="rename-merged">
+    <echo>Renaming the merged one</echo>
+    <rename src="${dist.temp.file.js}" dest="${dist.compressed.file.js}"/>
+  </target>
+
+  <!-- Deletes the concatenated file -->
+  <target name="delete-concatenated-files">
+    <echo>Deleting concatenated file</echo>
+    <delete file="${dist.temp.file.js}"/>
+  </target>
+
+
+    <!-- run all tasks -->
+  <target name="instructions">
+    <echo>
+      ----------------------------------------
+      You can use ANT with the following flags
+      ----------------------------------------
+    </echo>
+    <echo>
+      ant build:
+      Builds for production both JS and Flash
+
+      ant docs:
+      Create the documentation
+
+      ant tests:
+      Runs the unit tests
+    </echo>
+  </target>
+
+  <target name="build" depends="run-tests, clean, merge-global-js, compress-global-js, delete-concatenated-files, js3docs"></target>
+  <target name="docs" depends="js3docs"></target>
+  <target name="tests" depends="run-tests"></target>
+</project>
