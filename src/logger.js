@@ -4,7 +4,7 @@
  * @class Logger
  * @constructor
  */
-Debugger.Logger = (function() {
+Debugger.Logger = new (function() {
 
   /**
    * The LOG constant.
@@ -31,7 +31,7 @@ Debugger.Logger = (function() {
   var ERROR = 'error';
 
   /**
-   * Is set to true if the logger is enabled.
+   * Is set to true if the logger is on
    *
    * @private
    * @type {Boolean}
@@ -152,7 +152,7 @@ Debugger.Logger = (function() {
   this.register = function(identifier, logger, parser) {
 
     if (typeof identifier !== 'string' ||
-      (typeof logger === 'undefined' || logger === null)) {
+        (typeof logger === 'undefined' || logger === null)) {
       throw new Error('Not valid arguments');
     }
 

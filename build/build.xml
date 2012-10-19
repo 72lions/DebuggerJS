@@ -29,7 +29,7 @@
   <var name="src.js.dir" value="${src.dir}"/>
   <var name="dist.js.dir" value="${dist.dir}"/>
   <var name="dist.compressed.file.js" value="${dist.js.dir}/debuggerjs.min.js" />
-  <var name="dist.temp.file.js" value="${dist.js.dir}/debuggerjs.temp.js" />
+  <var name="dist.temp.file.js" value="${dist.js.dir}/debuggerjs.merged.js" />
 
   <!--TARGETS-->
 
@@ -108,7 +108,7 @@
     </echo>
   </target>
 
-  <target name="build" depends="run-tests, clean, merge-global-js, compress-global-js, delete-concatenated-files, js3docs"></target>
+  <target name="build" depends="run-tests, clean, merge-global-js, compress-global-js, js3docs"></target>
   <target name="docs" depends="js3docs"></target>
   <target name="tests" depends="run-tests"></target>
 </project>

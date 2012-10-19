@@ -34,7 +34,7 @@ describe('Debugger.Utils', function() {
 
 describe('Debugger.Logger', function() {
 
-  var logger = new Debugger.Logger();
+  var logger = Debugger.Logger;
 
   it('#register', function() {
     var result = logger.register('CONSOLE',
