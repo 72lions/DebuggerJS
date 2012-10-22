@@ -1,26 +1,24 @@
 /* Modules */
 var common = require('../modules/common.js');
 var expect = require('expect.js');
-common.include('../../src/namespaces.js');
-common.include('../../src/helpers/utils.js');
-common.include('../../src/logger.js');
+common.include('../../src/debugger.js');
 common.include('../../src/loggers/memory.js');
 common.include('../../src/parsers/default.js');
 
-describe('Debugger.Utils', function() {
+describe('DebuggerJS.Utils', function() {
 
   describe('#isArray', function() {
 
     it('Should return true', function() {
-      var result = Debugger.Utils.isArray([]);
+      var result = DebuggerJS.Utils.isArray([]);
       expect(result).to.be(true);
     });
 
     it('Should return false', function() {
-      var result1 = Debugger.Utils.isArray({});
-      var result2 = Debugger.Utils.isArray(function() {});
-      var result3 = Debugger.Utils.isArray(14);
-      var result4 = Debugger.Utils.isArray('String');
+      var result1 = DebuggerJS.Utils.isArray({});
+      var result2 = DebuggerJS.Utils.isArray(function() {});
+      var result3 = DebuggerJS.Utils.isArray(14);
+      var result4 = DebuggerJS.Utils.isArray('String');
 
       expect(result1).to.be(false);
       expect(result2).to.be(false);
@@ -32,14 +30,14 @@ describe('Debugger.Utils', function() {
 
 });
 
-describe('Debugger.Logger', function() {
+describe('DebuggerJS.Logger', function() {
 
-  var logger = Debugger.Logger;
+  var logger = DebuggerJS;
 
   it('#register', function() {
     var result = logger.register('CONSOLE',
-        new Debugger.Loggers.Memory(),
-        new Debugger.Parsers.Default());
+        new DebuggerJS.Loggers.Memory(),
+        new DebuggerJS.Parsers.Default());
     expect(result).to.be(true);
   });
 

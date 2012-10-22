@@ -51,12 +51,10 @@
     <echo>Merging the Javascript...</echo>
     <concat destfile="${dist.temp.file.js}" fixlastline="yes" append="no">
       <filelist>
-        <file name="${src.js.dir}/namespaces.js"/>
-        <file name="${src.js.dir}/helpers/utils.js"/>
+        <file name="${src.js.dir}/debugger.js"/>
         <file name="${src.js.dir}/parsers/default.js"/>
         <file name="${src.js.dir}/loggers/console.js"/>
         <file name="${src.js.dir}/loggers/memory.js"/>
-        <file name="${src.js.dir}/logger.js"/>
       </filelist>
     </concat>
   </target>

@@ -6,11 +6,13 @@
  * @class Default
  * @constructor
  */
-Debugger.Parsers.Default = (function() {
+DebuggerJS.Parsers.Default = (function() {
 
   /**
    * Returns an array with the formated log message.
    *
+   * @public
+   * @function
    * @param {String} module The module that this log belongs to.
    * @param {Array} message An array that holds all the messages that the user
    * needs to log.

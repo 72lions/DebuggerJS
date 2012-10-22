@@ -4,11 +4,13 @@
  * @class Console
  * @constructor
  */
-Debugger.Loggers.Console = (function() {
+DebuggerJS.Loggers.Console = (function() {
 
   /**
    * Logs whatever you pass it in the console.
    *
+   * @public
+   * @function
    * @return {Boolean} Is true if nothing goes wrong.
    */
   this.log = function() {
@@ -19,6 +21,8 @@ Debugger.Loggers.Console = (function() {
   /**
    * Logs an error with whatever arguments you pass it to the console.
    *
+   * @public
+   * @function
    * @return {Boolean} Is true if nothing goes wrong.
    */
   this.error = function() {
@@ -29,10 +33,12 @@ Debugger.Loggers.Console = (function() {
   /**
    * Logs a warning with whatever arguments you pass it to the console.
    *
+   * @public
+   * @function
    * @return {Boolean} Is true if nothing goes wrong.
    */
   this.warn = function() {
-    console.error.apply(console, arguments);
+    console.warn.apply(console, arguments);
     return true;
   };
 
