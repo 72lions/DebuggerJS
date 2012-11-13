@@ -43,8 +43,8 @@ DebuggerJS = new (function() {
      * @param  {Object} object The object that will be checked.
      * @return {Boolean} Returns true if tis an array.
      */
-    isArray: function(object) {
-      return toString.call(object) == '[object Array]';
+    isArray: Array.isArray || function(object) {
+      return Object.prototype.toString.call(object) == '[object Array]';
     }
   };
 
